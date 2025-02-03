@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>마이크 테스트</title>
+</head>
+<body>
+  <button id="start">마이크 시작</button>
+  <script>
+    document.getElementById("start").addEventListener("click", function() {
+      navigator.mediaDevices.getUserMedia({ audio: true })
+        .then(function(stream) {
+          const audio = document.createElement("audio");
+          audio.srcObject = stream;
+          audio.autoplay = true;
+          document.body.appendChild(audio);
+          console.log("오디오 스트림 받아옴:", stream);
+        })
+        .catch(function(err) {
+          console.error("오디오 캡처 오류:", err);
+        });
+    });
+  </script>
+</body>
+</html>
