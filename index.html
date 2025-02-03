@@ -3,21 +3,67 @@
 <head>
   <meta charset="UTF-8">
   <title>마이크 테스트</title>
+  <style>
+    /* 인식된 음성을 표시할 영역 스타일 */
+    #transcript {
+      margin-top: 20px;
+      font-size: 1.2em;
+      color: blue;
+    }
+  </style>
 </head>
 <body>
+  <!-- 마이크 시작 버튼 -->
   <button id="start">마이크 시작</button>
+  <!-- 음성 인식 결과를 표시할 영역 -->
+  <div id="transcript">여기에 음성 인식 결과가 표시됩니다.</div>
+  
   <script>
     document.getElementById("start").addEventListener("click", function() {
+      // getUserMedia로 오디오 스트림 요청
       navigator.mediaDevices.getUserMedia({ audio: true })
         .then(function(stream) {
+          // (옵션) 오디오 태그 생성하여 스트림 재생 - 필요 시 주석처리 가능
           const audio = document.createElement("audio");
           audio.srcObject = stream;
           audio.autoplay = true;
           document.body.appendChild(audio);
           console.log("오디오 스트림 받아옴:", stream);
+
+          // Speech Recognition API 사용 (Chrome의 경우 webkitSpeechRecognition을 사용)
+          var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+          if (SpeechRecognition) {
+            var recognition = new SpeechRecognition();
+            recognition.lang = "ko-KR";            // 한국어 인식
+            recognition.continuous = true;           // 연속 인식 모드
+            recognition.interimResults = true;       // 중간 결과 표시 허용
+            recognition.start();
+
+            recognition.onresult = function(event) {
+              let transcript = "";
+              for (let i = event.resultIndex; i < event.results.length; i++) {
+                transcript += event.results[i][0].transcript;
+              }
+              // 인식된 음성을 화면에 표시
+              document.getElementById("transcript").textContent = transcript;
+              console.log("인식된 내용:", transcript);
+            };
+
+            recognition.onerror = function(event) {
+              console.error("음성 인식 오류:", event.error);
+              document.getElementById("transcript").textContent = "음성 인식 오류: " + event.error;
+            };
+
+            recognition.onend = function() {
+              console.log("음성 인식 종료");
+            };
+          } else {
+            document.getElementById("transcript").textContent = "이 브라우저는 Speech Recognition API를 지원하지 않습니다.";
+          }
         })
         .catch(function(err) {
           console.error("오디오 캡처 오류:", err);
+          document.getElementById("transcript").textContent = "오디오 캡처 오류: " + err;
         });
     });
   </script>
