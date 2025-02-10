@@ -1,0 +1,1 @@
+ C:\\Users\\OPTIMEDE\\webrtc_translator\\.dart_tool\\flutter_build\\ec11a6c2cc48394ea4b71cdb431e6c9d\\native_assets.yaml: 
