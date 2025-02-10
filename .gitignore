@@ -43,3 +43,57 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Flutter 관련 빌드 폴더 제외
+build/
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.metadata
+.packages
+*.iml
+
+# Android 관련 불필요한 파일 제외
+android/.gradle/
+android/.idea/
+android/local.properties
+android/app/build/
+
+# iOS 관련 불필요한 파일 제외
+ios/.generated/
+ios/Flutter/App.framework
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+ios/Flutter/engine/
+ios/Flutter/*.xcworkspace
+ios/Pods/
+ios/build/
+
+# 빌드 파일 제외 (업로드 불필요한 파일)
+build/
+*.so
+*.apk
+*.dill
+*.bin
+*.dll
+.flutter-plugins
+.flutter-plugins-dependencies
+.dart_tool/
+.metadata
+.packages
+
+# Android 불필요한 파일 제외
+android/.gradle/
+android/.idea/
+android/local.properties
+android/app/build/
+
+# iOS 불필요한 파일 제외
+ios/.generated/
+ios/Flutter/App.framework
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+ios/Flutter/engine/
+ios/Flutter/*.xcworkspace
+ios/Pods/
+ios/build/
