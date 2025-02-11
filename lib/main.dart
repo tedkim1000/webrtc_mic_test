@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
+import 'package:permission_handler/permission_handler.dart'; // 권한 요청 패키지 추가
 
 void main() {
   runApp(const MyApp());
@@ -48,10 +49,20 @@ class _MyHomePageState extends State<MyHomePage> {
     };
 
     try {
+      // 마이크 권한 요청
+      var status = await Permission.microphone.request();
+      if (status != PermissionStatus.granted) {
+        print("Microphone permission denied.");
+        return;
+      }
+
+      // 마이크 스트림 요청
       MediaStream stream = await navigator.mediaDevices.getUserMedia(mediaConstraints);
       setState(() {
         _localStream = stream;
       });
+
+      print("Microphone access granted. Stream started.");
     } catch (e) {
       print("Error accessing microphone: $e");
     }
